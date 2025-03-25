@@ -5,13 +5,13 @@ function App() {
   const [bets, setBets] = useState([]);
 
   useEffect(() => {
-    axios.get("https://ai-bets-2.onrender.com/bets") // Replace with your backend if needed
+   axios.get("https://ai-bets-2.onrender.com/bets") // Replace with your backend if needed
       .then((res) => setBets(res.data))
       .catch((err) => console.error("API error:", err));
   }, []);
 
   const handleBet = async (bet) => {
-    await axios.post("https://ai-bets-2.onrender.com/bets", bet);
+    await axios.post("https://ai-bets-2.onrender.com/place-bet", bet);
     alert(`Placed bet on ${bet.team} at +${bet.odds}`);
   };
 
