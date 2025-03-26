@@ -5,7 +5,20 @@ def load_data():
         return json.load(f)
 
 def get_filtered_bets(min_odds=200, max_odds=600):
-    events = load_data()
+    events = from oddsjam import OddsJam
+import os
+
+def load_data():
+    api_key = os.environ.get("ODDSJAM_API_KEY", "YOUR_API_KEY")
+    oj = OddsJam(api_key)
+
+    # You can adjust parameters here based on what OddsJam supports
+    odds = oj.get_odds(
+        sportsbook="fanduel",  # or None for all
+        market="h2h",          # head-to-head market
+        min_edge=0             # you can add filters here
+    )
+    return odds
     filtered = []
     for event in events:
         for book in event.get("bookmakers", []):
