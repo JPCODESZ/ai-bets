@@ -1,24 +1,28 @@
-import json
-
-def load_data():
-    with open("sample_data.json") as f:
-        return json.load(f)
-
-def get_filtered_bets(min_odds=200, max_odds=600):
-    events = from oddsjam import OddsJam
+import requests
 import os
 
 def load_data():
-    api_key = os.environ.get("ODDSJAM_API_KEY", "YOUR_API_KEY")
-    oj = OddsJam(api_key)
+    api_key = os.environ.get("ODDS_API_KEY") or "9d71f7c5e796eec9bace56a35856504f"
 
-    # You can adjust parameters here based on what OddsJam supports
-    odds = oj.get_odds(
-        sportsbook="fanduel",  # or None for all
-        market="h2h",          # head-to-head market
-        min_edge=0             # you can add filters here
-    )
-    return odds
+    url = "https://api.the-odds-api.com/v4/sports/upcoming/odds"
+    params = {
+        "apiKey": api_key,
+        "regions": "us",
+        "markets": "h2h",
+        "oddsFormat": "american",
+        "bookmakers": "fanduel"
+    }
+
+    try:
+        response = requests.get(url, params=params)
+        response.raise_for_status()
+        return response.json()
+    except Exception as e:
+        print("❌ Odds API error:", e)
+        return []
+
+def get_filtered_bets(min_odds=200, max_odds=600):
+    events = load_data()
     filtered = []
     for event in events:
         for book in event.get("bookmakers", []):
