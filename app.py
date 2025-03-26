@@ -23,7 +23,8 @@ if __name__ == "__main__":
     app.run(host="0.0.0.0", port=port, debug=True)
 
 
-print("🟢 Reloading with The Odds API")
+print("✅ Reloading backend with The Odds API")
+
 
 
 print("App is running and using latest data")
