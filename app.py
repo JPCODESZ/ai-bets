@@ -33,4 +33,5 @@ git add app.py
 git commit -m "Trigger redeploy"
 git push
 
-print("✅ Reloaded with 20-bet logic")
+print("✅ Reloaded with new 20-bet logic.py")
+
