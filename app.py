@@ -23,15 +23,4 @@ if __name__ == "__main__":
     app.run(host="0.0.0.0", port=port, debug=True)
 
 
-print("✅ Reloading backend with The Odds API")
-
-
-
-print("App is running and using latest data")
-
-git add app.py
-git commit -m "Trigger redeploy"
-git push
-
-print("✅ Backend updated to return up to 20 bets")
-
+print("📦 Sending", len(get_filtered_bets()), "bets")
