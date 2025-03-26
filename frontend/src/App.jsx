@@ -11,8 +11,12 @@ function App() {
   }, []);
 
   const handleBet = async (bet) => {
-    await axios.post("https://ai-bets-2.onrender.com/place-bet", bet);
-    alert(`Placed bet on ${bet.team} at +${bet.odds}`);
+    try {
+      await axios.post("https://ai-bets-2.onrender.com/place-bet", bet);
+      alert(`✅ Placed bet on ${bet.team} at ${bet.odds > 0 ? `+${bet.odds}` : bet.odds}`);
+    } catch (err) {
+      alert("Error placing bet.");
+    }
   };
 
   return (
@@ -39,7 +43,7 @@ function App() {
             {bets.map((bet, idx) => (
               <div key={idx} className="bg-white p-6 rounded-xl shadow hover:shadow-lg transition">
                 <h3 className="text-xl font-semibold text-blue-700 mb-1">{bet.event}</h3>
-                <p className="text-md">Bet on: <strong>{bet.team}</strong> @ <span className="text-green-600 font-bold">+{bet.odds}</span></p>
+                <p className="text-md">Bet on: <strong>{bet.team}</strong> @ <span className="text-green-600 font-bold">{bet.odds > 0 ? `+${bet.odds}` : bet.odds}</span></p>
                 <p className="text-sm text-gray-500 mb-3">Starts: {new Date(bet.start_time).toLocaleString()}</p>
                 <button
                   onClick={() => handleBet(bet)}
