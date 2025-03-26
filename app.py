@@ -32,3 +32,5 @@ print("App is running and using latest data")
 git add app.py
 git commit -m "Trigger redeploy"
 git push
+
+print("✅ Reloaded with 20-bet logic")
