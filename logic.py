@@ -3,7 +3,6 @@ import os
 
 def load_data():
     api_key = os.environ.get("ODDS_API_KEY") or "9d71f7c5e796eec9bace56a35856504f"
-
     url = "https://api.the-odds-api.com/v4/sports/upcoming/odds"
     params = {
         "apiKey": api_key,
@@ -18,12 +17,13 @@ def load_data():
         response.raise_for_status()
         return response.json()
     except Exception as e:
-        print("❌ Odds API error:", e)
+        print("❌ Error fetching odds:", e)
         return []
 
-def get_filtered_bets(min_odds=200, max_odds=600):
+def get_filtered_bets(limit=20):
     events = load_data()
-    filtered = []
+    results = []
+
     for event in events:
         for book in event.get("bookmakers", []):
             if book["key"] != "fanduel":
@@ -32,16 +32,12 @@ def get_filtered_bets(min_odds=200, max_odds=600):
                 if market["key"] != "h2h":
                     continue
                 for outcome in market.get("outcomes", []):
-                    price = outcome["price"]
-                    if min_odds <= price <= max_odds:
-                        filtered.append({
-                            "event": f"{event['away_team']} @ {event['home_team']}",
-                            "team": outcome["name"],
-                            "odds": price,
-                            "start_time": event["commence_time"]
-                        })
-    return filtered
-
-def place_bet(data):
-    print(f"Placing bet on {data['team']} at +{data['odds']}...")
-    return {"status": "success", "details": data}
+                    results.append({
+                        "event": f"{event['away_team']} @ {event['home_team']}",
+                        "team": outcome["name"],
+                        "odds": outcome["price"],
+                        "start_time": event["commence_time"]
+                    })
+                    if len(results) >= limit:
+                        return results  # Stop once we hit the limit
+    return results
