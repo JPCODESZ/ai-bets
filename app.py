@@ -10,6 +10,7 @@ def home():
 
 @app.route("/bets")
 def bets():
+    # Get the filtered bets (up to 20)
     bets = get_filtered_bets(limit=20)
     print(f"📦 Returning {len(bets)} bets")
     return jsonify(bets)
