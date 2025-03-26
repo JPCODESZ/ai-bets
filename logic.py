@@ -1,7 +1,7 @@
 import requests
 import os
 
-def get_filtered_bets(limit=20):
+ def get_filtered_bets(limit=20):
     events = load_data()
     results = []
 
@@ -19,6 +19,12 @@ def get_filtered_bets(limit=20):
                         "odds": outcome["price"],
                         "start_time": event["commence_time"]
                     })
+        # ✅ Only check limit after a full event is processed
+        if len(results) >= limit:
+            break
+
+    return results[:limit]
+
         # ✅ Only check limit after a full event is processed
         if len(results) >= limit:
             break
