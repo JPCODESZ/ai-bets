@@ -1,2 +1,3 @@
 flask
 flask-cors
+git+https://github.com/cooperbrandon1/oddsjam-api.git
