@@ -1,3 +1,4 @@
 Flask==2.2.3
 Werkzeug==2.2.3
 requests==2.28.0
+gunicorn==20.1.0  # Add Gunicorn for deployment (Render uses this for WSGI)
