@@ -39,5 +39,5 @@ def get_filtered_bets(limit=20):
                         "start_time": event["commence_time"]
                     })
                     if len(results) >= limit:
-                        return results  # Stop once we hit the limit
+                        return results
     return results
