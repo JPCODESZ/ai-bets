@@ -24,3 +24,10 @@ if __name__ == "__main__":
 
 
 print("🟢 Reloading with The Odds API")
+
+
+print("App is running and using latest data")
+
+git add app.py
+git commit -m "Trigger redeploy"
+git push
